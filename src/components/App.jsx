@@ -1,3 +1,5 @@
+import Creditos from "./Creditos"
+import Cartao from "./Cartao"
 
 const App = () => {
 
@@ -23,6 +25,13 @@ const App = () => {
              RolêRadar
         </h1>
         <p style={estiloSubtitulo}> Descubra o que existe perto de você</p>
+
+        <Creditos />
+
+        <Cartao cabecalho="Teste">
+            <p>Conteúdo do cartão</p>
+
+        </Cartao>
     
         <div>
             <p>RolêRadar © {obterAno()} </p>
