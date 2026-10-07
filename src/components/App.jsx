@@ -3,6 +3,8 @@ import Creditos from "./Creditos"
 import Loading from "./Loading"
 import Cartao from "./Cartao"
 import MeuPonto from "./MeuPonto"
+import geoapifyClient from "../utils/geoapifyClient.js"
+import { Button } from "@primereact/ui/button"
 
 class App extends React.Component  {
 
@@ -39,6 +41,23 @@ class App extends React.Component  {
 
     }
 
+    onBuscaRealizada = (categoria,raio) => {
+        const {latitude, longitude} = this.state
+        geoapifyClient.get('/places', {
+            params: {
+                categories: categoria,
+                filter: `circle:${longitude},${latitude},${raio}`,
+                bias: `proximity:${longitude},${latitude}`,
+                limit: 20
+            }
+        })
+        .then((result) => {
+            console.log(result.data.features)
+        })
+
+   } 
+
+    
 
     render () { 
 
@@ -77,17 +96,23 @@ class App extends React.Component  {
                         </p>
                         
                     :
-                    <Cartao cabecalho="Você está aqui">
-                        <MeuPonto
-                            latitude={this.state.latitude}
-                            longitude={this.state.longitude}
-                            horarioLocalizacao={this.state.horarioLocalizacao}
-                            onAtualizar={this.obterLocalizacao}
-                        />
-                    </Cartao>
-                    
-                
+                    <div>
+                        <Cartao cabecalho="Você está aqui">
+                            <MeuPonto
+                                latitude={this.state.latitude}
+                                longitude={this.state.longitude}
+                                horarioLocalizacao={this.state.horarioLocalizacao}
+                                onAtualizar={this.obterLocalizacao}
+                            />
+                        </Cartao>
+
+                        <Button onClick={() => this.onBuscaRealizada("catering.cafe",1000)}>
+                                Testar Busca
+                        </Button>
+                        
+                    </div>          
                 }
+            
 
                 <div>
                     <p>RolêRadar © {obterAno()} </p>
