@@ -1,6 +1,8 @@
 import React from "react"
 import Creditos from "./Creditos"
 import Loading from "./Loading"
+import Cartao from "./Cartao"
+import MeuPonto from "./MeuPonto"
 
 class App extends React.Component  {
 
@@ -75,9 +77,14 @@ class App extends React.Component  {
                         </p>
                         
                     :
-                        <p>
-                            Localização obtida: {this.state.latitude}, {this.state.longitude}
-                        </p>
+                    <Cartao cabecalho="Você está aqui">
+                        <MeuPonto
+                            latitude={this.state.latitude}
+                            longitude={this.state.longitude}
+                            horarioLocalizacao={this.state.horarioLocalizacao}
+                            onAtualizar={this.obterLocalizacao}
+                        />
+                    </Cartao>
                     
                 
                 }
