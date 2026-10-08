@@ -4,8 +4,7 @@ import Loading from "./Loading"
 import Cartao from "./Cartao"
 import MeuPonto from "./MeuPonto"
 import geoapifyClient from "../utils/geoapifyClient.js"
-import { Button } from "@primereact/ui/button"
-
+import Busca from "./Busca.jsx"
 class App extends React.Component  {
 
     state = {
@@ -105,10 +104,10 @@ class App extends React.Component  {
                                 onAtualizar={this.obterLocalizacao}
                             />
                         </Cartao>
-
-                        <Button onClick={() => this.onBuscaRealizada("catering.cafe",1000)}>
-                                Testar Busca
-                        </Button>
+                        
+                        <Cartao cabecalho="O que você procura?">
+                            <Busca onBuscaRealizada={this.onBuscaRealizada} />
+                        </Cartao>
                         
                     </div>          
                 }

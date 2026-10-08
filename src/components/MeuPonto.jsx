@@ -51,11 +51,9 @@ class MeuPonto extends React.Component {
                     Localização obtida há {segundos} s
                 </p>
 
-                <Button
-                    icon="pi pi-refresh" 
-                    onClick={this.props.onAtualizar}
-                >
-                    Atualizar localização
+                <Button onClick={this.props.onAtualizar}>
+                    <i className="pi pi-refresh"></i>
+                       Atualizar localização
                 </Button>
 
             </div>
