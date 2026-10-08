@@ -5,13 +5,16 @@ import Cartao from "./Cartao"
 import MeuPonto from "./MeuPonto"
 import geoapifyClient from "../utils/geoapifyClient.js"
 import Busca from "./Busca.jsx"
+import ListaLugares from "./ListaLugares"
+
 class App extends React.Component  {
 
     state = {
         latitude: null,
         longitude: null,
         horarioLocalizacao: null,
-        mensagemDeErro: null
+        mensagemDeErro: null,
+        lugares: null
 
     }
 
@@ -51,7 +54,11 @@ class App extends React.Component  {
             }
         })
         .then((result) => {
-            console.log(result.data.features)
+            // console.log(result.data.features)
+            this.setState({
+                lugares: result.data.features 
+            
+            })
         })
 
    } 
@@ -75,53 +82,67 @@ class App extends React.Component  {
         }
 
         return (
-    
-            <div>
-                <h1 className="titulo">
-                    <i className="pi pi-map-marker"></i>
-                    RolêRadar
-                </h1>
-                <p style={estiloSubtitulo}> Descubra o que existe perto de você</p>
 
-                <Creditos />
+            <div className="grid">
+
+                <div className="col-12">
+                    <h1 className="titulo">
+                        <i className="pi pi-map-marker"></i>
+                        RolêRadar
+                    </h1>
+                    <p style={estiloSubtitulo}> Descubra o que existe perto de você</p>
+
+                    <Creditos />
+                </div>
 
                 {(!this.state.latitude && !this.state.mensagemDeErro) ?
-                    <Loading mensagem="Aguardando permissão de localização..."/>
-
+                    <div className="col-12">
+                        <Loading mensagem="Aguardando permissão de localização..."/>
+                    </div>
                     :
                     this.state.mensagemDeErro ?
-                        <p>
-                            {this.state.mensagemDeErro}
-                        </p>
-                        
+                        <div className="col-12">
+                            <p>
+                                {this.state.mensagemDeErro}
+                            </p>
+                        </div>
                     :
-                    <div>
-                        <Cartao cabecalho="Você está aqui">
-                            <MeuPonto
-                                latitude={this.state.latitude}
-                                longitude={this.state.longitude}
-                                horarioLocalizacao={this.state.horarioLocalizacao}
-                                onAtualizar={this.obterLocalizacao}
-                            />
-                        </Cartao>
-                        
-                        <Cartao cabecalho="O que você procura?">
-                            <Busca onBuscaRealizada={this.onBuscaRealizada} />
-                        </Cartao>
-                        
-                    </div>          
+                    <>
+                        <div className="col-6">
+                            <Cartao cabecalho="Você está aqui">
+                                <MeuPonto
+                                    latitude={this.state.latitude}
+                                    longitude={this.state.longitude}
+                                    horarioLocalizacao={this.state.horarioLocalizacao}
+                                    onAtualizar={this.obterLocalizacao}
+                                />
+                            </Cartao>
+
+                            <Cartao cabecalho="O que você procura?">
+                                <Busca onBuscaRealizada={this.onBuscaRealizada} />
+                            </Cartao>
+                        </div>
+
+                        <div className="col-6">
+                            {this.state.lugares === null ?
+                                null
+                            :
+                                this.state.lugares.length === 0 ?
+                                    <p>Nenhum lugar encontrado. Tente aumentar o raio.</p>
+                                :
+                                    <ListaLugares lugares={this.state.lugares} />
+                            }
+                        </div>
+                    </>
                 }
-            
 
-                <div>
+                <div className="col-12">
                     <p>RolêRadar © {obterAno()} </p>
-
                 </div>
 
             </div>
         )
     }
-
 }
 
 export default App
