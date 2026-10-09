@@ -13,11 +13,8 @@ const estiloNumero = {
     color: 'white',
     borderRadius: '50%',
     width: 36,
-    height: 36,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12
+    height: 36
+
 }
 
 const Lugar = ({numero,nome,endereco,distancia}) => {
